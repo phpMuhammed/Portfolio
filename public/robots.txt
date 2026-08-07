@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohammed-musabeh.dev/sitemap-index.xml

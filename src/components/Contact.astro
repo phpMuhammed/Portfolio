@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import type { SiteContent } from '../content/types';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { content } = Astro.props;
+const { contactSection, contact, identity } = content;
+
+const CV_PATH = '/cv/Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
+const CV_FILENAME = 'Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
+---
+
+<section id="contact" class="mx-auto max-w-[960px] px-5 py-16 md:py-24">
+  <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{contactSection.heading}</h2>
+
+  <dl class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <dt class="text-ink-soft dark:text-ink-dark-soft flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+        <Icon name="mail" class="h-4 w-4" />
+        {contactSection.emailLabel}
+      </dt>
+      <dd class="mt-2">
+        <a href={`mailto:${contact.email}`} class="hover:text-accent dark:hover:text-accent-dark font-mono transition-colors">
+          {contact.email}
+        </a>
+      </dd>
+    </div>
+    <div>
+      <dt class="text-ink-soft dark:text-ink-dark-soft flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+        <Icon name="phone" class="h-4 w-4" />
+        {contactSection.phoneLabel}
+      </dt>
+      <dd class="mt-2">
+        <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} dir="ltr" class="hover:text-accent dark:hover:text-accent-dark font-mono transition-colors">
+          {contact.phone}
+        </a>
+      </dd>
+    </div>
+    <div>
+      <dt class="text-ink-soft dark:text-ink-dark-soft flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+        <Icon name="github" class="h-4 w-4" />
+        {contactSection.githubLabel}
+      </dt>
+      <dd class="mt-2">
+        <a
+          href={contact.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-accent dark:hover:text-accent-dark font-mono transition-colors"
+        >
+          {contact.github.replace('https://', '')}
+          <span class="sr-only"> — opens in new tab</span>
+        </a>
+      </dd>
+    </div>
+    <div>
+      <dt class="text-ink-soft dark:text-ink-dark-soft text-sm font-semibold uppercase tracking-wide">
+        {contactSection.locationLabel}
+      </dt>
+      <dd class="mt-2">{identity.location}</dd>
+    </div>
+  </dl>
+
+  <div class="mt-10">
+    <a
+      href={CV_PATH}
+      download={CV_FILENAME}
+      class="bg-ink text-paper dark:bg-ink-dark dark:text-paper-dark hover:bg-accent dark:hover:bg-accent-dark inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      <Icon name="download" class="h-4 w-4" />
+      {contactSection.downloadCvLabel}
+    </a>
+    {contactSection.cvNote && <p class="text-ink-soft dark:text-ink-dark-soft mt-3 text-sm">{contactSection.cvNote}</p>}
+  </div>
+</section>

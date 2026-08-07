@@ -1,0 +1,70 @@
+---
+import Icon from './Icon.astro';
+import type { SiteContent } from '../content/types';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { content } = Astro.props;
+const { identity, hero, contact } = content;
+
+const CV_PATH = '/cv/Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
+const CV_FILENAME = 'Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
+---
+
+<section class="mx-auto max-w-[960px] px-5 pb-16 pt-16 md:pb-24 md:pt-24">
+  <p class="text-ink-soft dark:text-ink-dark-soft font-mono text-sm">{identity.subtitle}</p>
+  <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl">{identity.name}</h1>
+  <p class="text-accent dark:text-accent-dark mt-3 text-xl font-semibold md:text-2xl">{identity.title}</p>
+
+  <p class="mt-6 max-w-[65ch] text-lg leading-relaxed md:text-xl">{hero.positioning}</p>
+
+  <p class="text-ink-soft dark:text-ink-dark-soft mt-4 font-mono text-sm">
+    {identity.location} · {identity.availability}
+  </p>
+
+  <div class="mt-8 flex flex-wrap items-center gap-4">
+    <a
+      href={CV_PATH}
+      download={CV_FILENAME}
+      class="bg-ink text-paper dark:bg-ink-dark dark:text-paper-dark hover:bg-accent dark:hover:bg-accent-dark inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      <Icon name="download" class="h-4 w-4" />
+      {hero.downloadCvLabel}
+    </a>
+    <a
+      href={`mailto:${contact.email}`}
+      class="border-line dark:border-line-dark hover:border-accent dark:hover:border-accent-dark inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      {hero.getInTouchLabel}
+    </a>
+  </div>
+
+  <div class="text-ink-soft dark:text-ink-dark-soft mt-8 flex flex-wrap items-center gap-5 text-sm">
+    <a
+      href={contact.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hover:text-accent dark:hover:text-accent-dark inline-flex items-center gap-2 transition-colors"
+      aria-label={`${hero.githubLabel} — opens in new tab`}
+    >
+      <Icon name="github" class="h-4 w-4" />
+      <span class="font-mono">{hero.githubLabel}</span>
+    </a>
+    <a
+      href={`mailto:${contact.email}`}
+      class="hover:text-accent dark:hover:text-accent-dark inline-flex items-center gap-2 transition-colors"
+    >
+      <Icon name="mail" class="h-4 w-4" />
+      <span class="font-mono">{contact.email}</span>
+    </a>
+    <a
+      href={`tel:${contact.phone.replace(/\s+/g, '')}`}
+      class="hover:text-accent dark:hover:text-accent-dark inline-flex items-center gap-2 transition-colors"
+    >
+      <Icon name="phone" class="h-4 w-4" />
+      <span class="font-mono" dir="ltr">{contact.phone}</span>
+    </a>
+  </div>
+</section>

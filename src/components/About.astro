@@ -1,0 +1,31 @@
+---
+import type { SiteContent } from '../content/types';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { content } = Astro.props;
+const { about } = content;
+---
+
+<section id="about" class="mx-auto max-w-[960px] px-5 py-16 md:py-20">
+  <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{about.heading}</h2>
+
+  <p class="mt-6 max-w-[70ch] leading-relaxed">{about.summary}</p>
+
+  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <h3 class="text-ink-soft dark:text-ink-dark-soft text-sm font-semibold uppercase tracking-wide">
+        {about.educationHeading}
+      </h3>
+      <p class="mt-2 leading-relaxed">{about.education}</p>
+    </div>
+    <div>
+      <h3 class="text-ink-soft dark:text-ink-dark-soft text-sm font-semibold uppercase tracking-wide">
+        {about.languagesHeading}
+      </h3>
+      <p class="mt-2 leading-relaxed">{about.languages}</p>
+    </div>
+  </div>
+</section>

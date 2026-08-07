@@ -1,0 +1,40 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  slug: string;
+  name: string;
+  accentColor: string;
+  class?: string;
+}
+
+const { slug, name, accentColor, class: className = 'h-14 w-14' } = Astro.props;
+
+const publicLogosDir = path.resolve(process.cwd(), 'public', 'logos');
+const svgPath = path.join(publicLogosDir, `${slug}.svg`);
+const pngPath = path.join(publicLogosDir, `${slug}.png`);
+
+let logoSrc: string | null = null;
+if (fs.existsSync(svgPath)) {
+  logoSrc = `/logos/${slug}.svg`;
+} else if (fs.existsSync(pngPath)) {
+  logoSrc = `/logos/${slug}.png`;
+}
+
+const initial = name.trim().charAt(0).toUpperCase();
+---
+
+{
+  logoSrc ? (
+    <img src={logoSrc} alt="" class={`${className} shrink-0 rounded-xl object-contain`} width="56" height="56" loading="lazy" />
+  ) : (
+    <span
+      class={`${className} flex shrink-0 items-center justify-center rounded-xl font-mono text-xl font-semibold text-white`}
+      style={`background-color: ${accentColor}`}
+      aria-hidden="true"
+    >
+      {initial}
+    </span>
+  )
+}

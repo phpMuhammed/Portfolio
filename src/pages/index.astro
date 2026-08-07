@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Work from '../components/Work.astro';
+import Skills from '../components/Skills.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import { en } from '../content/en';
+---
+
+<Layout content={en}>
+  <Hero content={en} />
+  <Work content={en} />
+  <Skills content={en} />
+  <About content={en} />
+  <Contact content={en} />
+</Layout>

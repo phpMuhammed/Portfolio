@@ -1,0 +1,29 @@
+---
+import type { SiteContent } from '../content/types';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { content } = Astro.props;
+const { skills } = content;
+---
+
+<section id="skills" class="mx-auto max-w-[960px] px-5 py-16 md:py-20">
+  <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{skills.heading}</h2>
+
+  <div class="mt-8 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+    {
+      skills.groups.map((group) => (
+        <div>
+          <h3 class="text-ink-soft dark:text-ink-dark-soft text-sm font-semibold uppercase tracking-wide">{group.label}</h3>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {group.items.map((item) => (
+              <span class="border-line dark:border-line-dark rounded-full border px-3 py-1 font-mono text-xs">{item}</span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
