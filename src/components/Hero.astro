@@ -53,6 +53,16 @@ const CV_FILENAME = 'Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
       <span class="font-mono">{hero.githubLabel}</span>
     </a>
     <a
+      href={contact.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hover:text-accent dark:hover:text-accent-dark inline-flex items-center gap-2 transition-colors"
+      aria-label={`${hero.linkedinLabel} — opens in new tab`}
+    >
+      <Icon name="linkedin" class="h-4 w-4" />
+      <span class="font-mono">{hero.linkedinLabel}</span>
+    </a>
+    <a
       href={`mailto:${contact.email}`}
       class="hover:text-accent dark:hover:text-accent-dark inline-flex items-center gap-2 transition-colors"
     >

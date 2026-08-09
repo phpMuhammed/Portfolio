@@ -22,6 +22,7 @@ export const en: SiteContent = {
     email: 'mhmd.musabeh@gmail.com',
     phone: '+970 597 669 248',
     github: 'https://github.com/phpMuhammed',
+    linkedin: 'https://www.linkedin.com/in/mhmd-musabeh/',
   },
   nav: {
     work: 'Work',
@@ -40,6 +41,7 @@ export const en: SiteContent = {
     downloadCvLabel: 'Download CV',
     getInTouchLabel: 'Get in touch',
     githubLabel: 'GitHub',
+    linkedinLabel: 'LinkedIn',
     emailLabel: 'Email',
     phoneLabel: 'Phone',
   },
@@ -55,7 +57,7 @@ export const en: SiteContent = {
         role: 'Backend Developer',
         dates: '2020 – 2024',
         metricBadge: '5,000,000+ learners',
-        website: 'https://www.istoria.sa/',
+        website: 'https://istoria.app',
         linkedin: 'https://www.linkedin.com/company/istoria-app',
         description:
           'Consumer ed-tech platform serving the Saudi and Arabic-speaking market. Four years of continuous backend ownership as the product grew into one of the largest English-learning apps in the region.',
@@ -258,9 +260,7 @@ export const en: SiteContent = {
     emailLabel: 'Email',
     phoneLabel: 'Phone',
     githubLabel: 'GitHub',
+    linkedinLabel: 'LinkedIn',
     locationLabel: 'Location',
-  },
-  footer: {
-    builtWith: 'Built with Astro',
   },
 };

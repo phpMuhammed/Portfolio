@@ -22,6 +22,7 @@ export const ar: SiteContent = {
     email: 'mhmd.musabeh@gmail.com',
     phone: '+970 597 669 248',
     github: 'https://github.com/phpMuhammed',
+    linkedin: 'https://www.linkedin.com/in/mhmd-musabeh/',
   },
   nav: {
     work: 'الأعمال',
@@ -40,6 +41,7 @@ export const ar: SiteContent = {
     downloadCvLabel: 'تحميل السيرة الذاتية',
     getInTouchLabel: 'تواصل معي',
     githubLabel: 'GitHub',
+    linkedinLabel: 'LinkedIn',
     emailLabel: 'البريد الإلكتروني',
     phoneLabel: 'الهاتف',
   },
@@ -55,7 +57,7 @@ export const ar: SiteContent = {
         role: 'مطوّر Backend',
         dates: '2020 – 2024',
         metricBadge: '+5,000,000 متعلّم',
-        website: 'https://www.istoria.sa/',
+        website: 'https://istoria.app',
         linkedin: 'https://www.linkedin.com/company/istoria-app',
         description:
           'منصّة تعليمية موجّهة للسوق السعودي والناطقين بالعربية. أربع سنوات من الملكية التقنية المتواصلة للـ Backend حتى أصبح المنتج من أكبر تطبيقات تعلّم الإنجليزية في المنطقة.',
@@ -259,9 +261,7 @@ export const ar: SiteContent = {
     emailLabel: 'البريد الإلكتروني',
     phoneLabel: 'الهاتف',
     githubLabel: 'GitHub',
+    linkedinLabel: 'LinkedIn',
     locationLabel: 'الموقع',
-  },
-  footer: {
-    builtWith: 'بُني باستخدام Astro',
   },
 };

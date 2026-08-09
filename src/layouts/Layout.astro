@@ -11,7 +11,7 @@ interface Props {
 const { content } = Astro.props;
 const { meta, identity, contact, locale, dir, path, altPath } = content;
 
-const siteUrl = Astro.site ?? new URL('https://mohammed-musabeh.dev');
+const siteUrl = Astro.site ?? new URL('https://mhmd-musabeh.vercel.app');
 const canonicalUrl = new URL(path, siteUrl).toString();
 const alternateUrl = new URL(altPath, siteUrl).toString();
 const ogImage = new URL(locale === 'ar' ? '/og-ar.png' : '/og-en.png', siteUrl).toString();
@@ -26,7 +26,7 @@ const personSchema = {
     '@type': 'PostalAddress',
     addressLocality: identity.location,
   },
-  sameAs: [contact.github],
+  sameAs: [contact.github, contact.linkedin],
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'Islamic University of Gaza',

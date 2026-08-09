@@ -66,12 +66,7 @@ public/logos/captab.svg      (or captab.png)
 
 This is a fully static site (`output: 'static'` in `astro.config.mjs`) — the `dist/` folder from `npm run build` can be deployed as-is to Vercel, Netlify, GitHub Pages, or any static host, with no server runtime required.
 
-Before deploying:
-
-1. Update the `site` value in `astro.config.mjs` — it currently points to a placeholder domain (`https://mohammed-musabeh.dev`) used for canonical URLs, `hreflang` tags, the sitemap and Open Graph image URLs.
-2. Update the `Sitemap:` line in `public/robots.txt` to match the same domain.
-3. Replace the placeholder CV PDF (see above).
-4. Optionally drop in real project logos (see above).
+The `site` value in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` are set to the production domain (`https://mhmd-musabeh.vercel.app`), used for canonical URLs, `hreflang` tags, the sitemap and Open Graph image URLs.
 
 ### Vercel / Netlify
 

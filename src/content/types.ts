@@ -30,6 +30,7 @@ export interface ContactInfo {
   email: string;
   phone: string;
   github: string;
+  linkedin: string;
 }
 
 export interface HeroContent {
@@ -37,6 +38,7 @@ export interface HeroContent {
   downloadCvLabel: string;
   getInTouchLabel: string;
   githubLabel: string;
+  linkedinLabel: string;
   emailLabel: string;
   phoneLabel: string;
 }
@@ -92,11 +94,8 @@ export interface ContactSectionContent {
   emailLabel: string;
   phoneLabel: string;
   githubLabel: string;
+  linkedinLabel: string;
   locationLabel: string;
-}
-
-export interface FooterContent {
-  builtWith: string;
 }
 
 export interface SiteContent {
@@ -114,5 +113,4 @@ export interface SiteContent {
   skills: SkillsSectionContent;
   about: AboutSectionContent;
   contactSection: ContactSectionContent;
-  footer: FooterContent;
 }

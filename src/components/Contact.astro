@@ -57,6 +57,23 @@ const CV_FILENAME = 'Mohammed_Ayman_Musabeh_Senior_Full_Stack_Developer_CV.pdf';
       </dd>
     </div>
     <div>
+      <dt class="text-ink-soft dark:text-ink-dark-soft flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+        <Icon name="linkedin" class="h-4 w-4" />
+        {contactSection.linkedinLabel}
+      </dt>
+      <dd class="mt-2">
+        <a
+          href={contact.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-accent dark:hover:text-accent-dark font-mono transition-colors"
+        >
+          {contact.linkedin.replace('https://www.linkedin.com/in/', 'in/').replace(/\/$/, '')}
+          <span class="sr-only"> — opens in new tab</span>
+        </a>
+      </dd>
+    </div>
+    <div>
       <dt class="text-ink-soft dark:text-ink-dark-soft text-sm font-semibold uppercase tracking-wide">
         {contactSection.locationLabel}
       </dt>
