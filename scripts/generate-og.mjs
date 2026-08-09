@@ -37,14 +37,14 @@ function buildSvg({ name, title, subtitle, dir }) {
 const images = [
   {
     file: 'og-en.png',
-    name: 'Mohammed Ayman Musabeh',
+    name: 'Mohammed Musabeh',
     title: 'Senior Full Stack Developer',
     subtitle: 'Backend Architecture · Laravel & PHP',
     dir: 'ltr',
   },
   {
     file: 'og-ar.png',
-    name: 'محمد أيمن مصبح',
+    name: 'محمد مصبح',
     title: 'مطوّر Full Stack أول',
     subtitle: 'هندسة الأنظمة الخلفية · Laravel و PHP',
     dir: 'rtl',

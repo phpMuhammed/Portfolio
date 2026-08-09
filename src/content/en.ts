@@ -7,12 +7,12 @@ export const en: SiteContent = {
   htmlLangAlt: 'ar',
   altPath: '/ar',
   meta: {
-    title: 'Mohammed Ayman Musabeh — Senior Full Stack Developer',
+    title: 'Mohammed Musabeh — Senior Full Stack Developer',
     description:
       'I design and build the backends behind products that reach millions — six years of Laravel and PHP architecture across ed-tech, marketplaces and B2B SaaS.',
   },
   identity: {
-    name: 'Mohammed Ayman Musabeh',
+    name: 'Mohammed Musabeh',
     title: 'Senior Full Stack Developer',
     subtitle: 'Backend Architecture · Laravel & PHP',
     location: 'Deir al-Balah, Palestine',

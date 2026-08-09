@@ -7,12 +7,12 @@ export const ar: SiteContent = {
   htmlLangAlt: 'en',
   altPath: '/',
   meta: {
-    title: 'محمد أيمن مصبح — مطوّر Full Stack أول',
+    title: 'محمد مصبح — مطوّر Full Stack أول',
     description:
       'أبني الأنظمة الخلفية التي تقف خلف منتجات يستخدمها الملايين — ست سنوات في هندسة Laravel و PHP عبر منتجات التعليم الإلكتروني والأسواق الرقمية وبرمجيات الأعمال.',
   },
   identity: {
-    name: 'محمد أيمن مصبح',
+    name: 'محمد مصبح',
     title: 'مطوّر Full Stack أول',
     subtitle: 'هندسة الأنظمة الخلفية · Laravel و PHP',
     location: 'دير البلح، فلسطين',

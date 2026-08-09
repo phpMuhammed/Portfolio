@@ -1,5 +1,6 @@
 ---
 import Icon, { type IconName } from './Icon.astro';
+import TechIcon, { type TechIconName } from './TechIcon.astro';
 import type { SiteContent } from '../content/types';
 
 interface Props {
@@ -11,6 +12,38 @@ const { skills } = content;
 
 // Positional, not label-keyed: group order is identical across locales (see content/en.ts, content/ar.ts).
 const GROUP_ICONS: IconName[] = ['layers', 'server', 'database', 'check-circle', 'terminal', 'plug'];
+
+// Skill item text is identical across locales (proper nouns aren't translated), so a single
+// English-keyed lookup works for both content/en.ts and content/ar.ts. Concept/process items
+// (e.g. "SOLID Principles", "Rate Limiting") have no brand mark and are intentionally omitted.
+const TECH_ICONS: Partial<Record<string, TechIconName>> = {
+  PHP: 'php',
+  Laravel: 'laravel',
+  'Laravel Sanctum': 'laravel',
+  FilamentPHP: 'filament',
+  'Filament Shield': 'filament',
+  MySQL: 'mysql',
+  PostgreSQL: 'postgresql',
+  Redis: 'redis',
+  JavaScript: 'javascript',
+  HTML5: 'html5',
+  CSS3: 'css3',
+  Bootstrap: 'bootstrap',
+  Vite: 'vite',
+  Git: 'git',
+  GitHub: 'github',
+  Nginx: 'nginx',
+  Composer: 'composer',
+  Postman: 'postman',
+  Jira: 'jira',
+  'VS Code': 'vscode',
+  'Figma design handoff': 'figma',
+  'Cursor AI': 'cursor',
+  'Claude AI': 'claude',
+  'GitHub Copilot': 'githubcopilot',
+  'Twilio Verify': 'twilio',
+  Firebase: 'firebase',
+};
 ---
 
 <section id="skills" class="mx-auto max-w-[960px] px-5 py-16 md:py-20">
@@ -25,9 +58,15 @@ const GROUP_ICONS: IconName[] = ['layers', 'server', 'database', 'check-circle',
             {group.label}
           </h3>
           <div class="mt-3 flex flex-wrap gap-2">
-            {group.items.map((item) => (
-              <span class="border-line dark:border-line-dark rounded-full border px-3 py-1 font-mono text-xs">{item}</span>
-            ))}
+            {group.items.map((item) => {
+              const techIcon = TECH_ICONS[item];
+              return (
+                <span class="border-line dark:border-line-dark inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs">
+                  {techIcon && <TechIcon name={techIcon} class="h-3.5 w-3.5 shrink-0" />}
+                  {item}
+                </span>
+              );
+            })}
           </div>
         </div>
       ))
