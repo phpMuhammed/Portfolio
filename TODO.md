@@ -18,14 +18,23 @@ Verified live against the dev server (`/logos/{slug}` present in rendered HTML) 
 ## 3. Real production domain — DONE
 Set to `https://mhmd-musabeh.vercel.app` in `astro.config.mjs` (`site`), `public/robots.txt` (`Sitemap:` line), and the `Layout.astro` fallback. README's deploy checklist updated to match.
 
-## 4. Actual deployment
-Not yet deployed anywhere (Vercel/Netlify/GitHub Pages). No live URL exists yet. The GitHub repo (`github.com/phpMuhammed/Portfolio`) is pushed and ready to connect to a host. Production domain is already decided (`https://mhmd-musabeh.vercel.app`), pointing at Vercel.
+## 4. Actual deployment — DONE
+Deployed to Vercel at `https://mhmd-musabeh.vercel.app`.
 
-## 5. Live performance re-check
-Lighthouse Performance = 100 was measured locally against an unthrottled preview server. Worth re-verifying once the site is actually deployed.
+## 5. Live performance re-check — DONE
+Re-verified against the live deployment (`https://mhmd-musabeh.vercel.app/`) on 2026-08-10 using Chrome DevTools performance traces (1x CPU, no network throttling):
 
-## 6. OG image fonts (cosmetic, low priority)
-`public/og-en.png` / `public/og-ar.png` render with a system fallback font instead of Inter / IBM Plex Sans Arabic (sharp's SVG rasterizer didn't pick up the self-hosted fonts in this environment). Still fully legible and on-brand, just not pixel-exact to the site's typography.
+- **Cold hit** (first request, serverless/CDN cold start): TTFB 1,925 ms, LCP 2,085 ms, CLS 0.00.
+- **Warm hit** (cache warm): TTFB 117 ms, LCP 1,138 ms, CLS 0.00 — matches the local numbers that produced the Performance = 100 score.
+
+Lighthouse's other categories were also spot-checked live (desktop, navigation mode): Accessibility 100, Best Practices 100, SEO 92, Agentic Browsing 67. Both non-100 scores are false negatives from Lighthouse's own fetch timing out on `robots.txt` (confirmed reachable, 200, via direct `curl`) and a missing optional `llms.txt` (404, not part of this project's original scope) — not real regressions.
+
+## 6. OG image fonts — DONE
+Root cause: `scripts/generate-og.mjs` built a raw SVG string and rasterized it with `sharp`, which delegates SVG text rendering to the system's font engine (fontconfig/librsvg) — it has no way to load the project's self-hosted `@fontsource` files, so it silently fell back to a system font.
+
+Fix: rewrote the generator to use `satori` (layout) + `@resvg/resvg-js` (rasterize), the same approach Vercel's own OG image tooling uses. Both accept font data as in-memory buffers, so the script now loads the actual `.woff` files straight out of `node_modules/@fontsource/{inter,ibm-plex-sans-arabic,ibm-plex-mono}` — no system fonts involved, same output on any machine (dev laptop, CI, Vercel build). Added `satori` and `@resvg/resvg-js` as devDependencies.
+
+Verified: regenerated both PNGs (1200×630), visually confirmed real Inter/IBM Plex Sans Arabic/IBM Plex Mono glyphs (correct weights, proper Arabic shaping/ligatures, correct bidi ordering for the mixed Arabic/Latin strings), and confirmed `npm run build` still completes cleanly.
 
 ## 7. Add skills icons — DONE
 Added one icon per skill group heading in `src/components/Skills.astro`. Per-item icons weren't practical — most items are abstract concepts (e.g. "SOLID Principles", "Rate Limiting") without a natural brand mark, so per-group was the sane simple option (matches the TODO's stated fallback).
