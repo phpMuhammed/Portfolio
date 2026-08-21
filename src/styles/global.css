@@ -5,6 +5,11 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 
+@import '@fontsource/geist-sans/400.css';
+@import '@fontsource/geist-sans/500.css';
+@import '@fontsource/geist-sans/600.css';
+@import '@fontsource/geist-sans/700.css';
+
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
 @import '@fontsource/ibm-plex-mono/600.css';
@@ -18,6 +23,7 @@
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
   --font-arabic: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
 
@@ -62,6 +68,7 @@ body {
   line-height: 1.8;
 }
 
+/* Scroll reveal — shared by both designs (v1 used it on the work cards). */
 .motion-safe-fade {
   opacity: 0;
   transform: translateY(1rem);
@@ -81,4 +88,270 @@ body {
     transform: none;
     transition: none;
   }
+}
+
+/* ==========================================================================
+   v2 only — everything below is scoped to `[data-design='v2']` on <html>.
+   Setting DESIGN_V2 = false in src/config/design.ts drops the whole block
+   and the site renders exactly as it did before.
+   ========================================================================== */
+
+[data-design='v2'] body {
+  font-family: var(--font-display);
+  letter-spacing: -0.011em;
+}
+
+/* Arabic glyphs come from IBM Plex Sans Arabic; Latin runs inside Arabic copy
+   fall back to Geist so they match the English page. Negative tracking is
+   dropped — it damages Arabic letterforms. */
+[data-design='v2'][dir='rtl'] body {
+  font-family: 'IBM Plex Sans Arabic', 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: normal;
+}
+
+[data-design='v2'] h1,
+[data-design='v2'] h2,
+[data-design='v2'] h3 {
+  text-wrap: balance;
+}
+
+[data-design='v2'] p {
+  text-wrap: pretty;
+}
+
+/* Staggered reveals. `.reveal` is defined here and nowhere else, so under v1
+   the class is inert and those elements simply render visible. */
+[data-design='v2'] .motion-safe-fade,
+[data-design='v2'] .reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--fade-delay, 0ms);
+}
+
+[data-design='v2'] .motion-safe-fade.is-visible,
+[data-design='v2'] .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-design='v2'] .motion-safe-fade,
+  [data-design='v2'] .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --- Network graph backdrop ---------------------------------------------- */
+
+[data-design='v2'] .network-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* tsparticles reads this as the node + link colour. */
+  color: var(--color-accent);
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 88%);
+}
+
+[data-design='v2'] .network-bg canvas {
+  pointer-events: none;
+}
+
+.dark[data-design='v2'] .network-bg {
+  color: var(--color-accent-dark);
+  opacity: 0.4;
+}
+
+/* --- Grain: breaks up the flat gradient look ------------------------------ */
+
+[data-design='v2'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark[data-design='v2'] body::after {
+  opacity: 0.05;
+}
+
+/* --- Header: hairline progress + border that appears on scroll ------------ */
+
+[data-design='v2'] .site-header {
+  border-color: transparent;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+[data-design='v2'] .site-header.is-scrolled {
+  border-color: var(--color-line);
+}
+
+.dark[data-design='v2'] .site-header.is-scrolled {
+  border-color: var(--color-line-dark);
+}
+
+[data-design='v2'] .scroll-progress {
+  position: absolute;
+  inset-block-end: -1px;
+  inset-inline-start: 0;
+  height: 1px;
+  width: 100%;
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left center;
+  background: linear-gradient(90deg, transparent, var(--color-accent));
+  pointer-events: none;
+}
+
+[dir='rtl'][data-design='v2'] .scroll-progress {
+  transform-origin: right center;
+  background: linear-gradient(270deg, transparent, var(--color-accent));
+}
+
+.dark[data-design='v2'] .scroll-progress {
+  background: linear-gradient(90deg, transparent, var(--color-accent-dark));
+}
+
+.dark[dir='rtl'][data-design='v2'] .scroll-progress {
+  background: linear-gradient(270deg, transparent, var(--color-accent-dark));
+}
+
+/* Geist renders U+2022 small and low, so it reads as a full stop. Draw the
+   marker in CSS instead — font-independent and optically centred on line one. */
+[data-design='v2'] .bullet {
+  font-size: 0;
+  line-height: 0;
+}
+
+[data-design='v2'] .bullet::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-top: 0.55rem;
+  border-radius: 9999px;
+  background: currentColor;
+}
+
+/* --- Cards ---------------------------------------------------------------- */
+
+[data-design='v2'] .card-shadow {
+  box-shadow:
+    0 1px 2px -1px rgb(15 118 110 / 0.06),
+    0 8px 24px -12px rgb(15 118 110 / 0.14);
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-design='v2'] .card-shadow:hover {
+  box-shadow:
+    0 1px 2px -1px rgb(15 118 110 / 0.08),
+    0 18px 40px -18px rgb(15 118 110 / 0.22);
+  transform: translateY(-2px);
+}
+
+.dark[data-design='v2'] .card-shadow {
+  box-shadow:
+    0 1px 2px -1px rgb(0 0 0 / 0.4),
+    0 8px 28px -12px rgb(45 212 191 / 0.12);
+}
+
+.dark[data-design='v2'] .card-shadow:hover {
+  box-shadow:
+    0 1px 2px -1px rgb(0 0 0 / 0.5),
+    0 18px 44px -18px rgb(45 212 191 / 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-design='v2'] .card-shadow,
+  [data-design='v2'] .card-shadow:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Cursor-tracking border highlight. Falls back to a plain card if the
+   mask-composite pair is unsupported. */
+[data-design='v2'] .spotlight-card {
+  position: relative;
+  --spot-x: 50%;
+  --spot-y: 0%;
+}
+
+@supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
+  [data-design='v2'] .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      360px circle at var(--spot-x) var(--spot-y),
+      rgb(15 118 110 / 0.35),
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+    pointer-events: none;
+  }
+
+  .dark[data-design='v2'] .spotlight-card::before {
+    background: radial-gradient(
+      360px circle at var(--spot-x) var(--spot-y),
+      rgb(45 212 191 / 0.4),
+      transparent 70%
+    );
+  }
+
+  [data-design='v2'] .spotlight-card:hover::before {
+    opacity: 1;
+  }
+}
+
+/* --- Hero glow ------------------------------------------------------------ */
+
+/* The glow is clipped by the section's box, so the gradient has to reach full
+   transparency well inside its own edges — otherwise it reads as a rectangle.
+   Centred at 50% with a 55%/90% radius, every edge is past the transparent stop. */
+[data-design='v2'] .hero-glow {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 28rem;
+  background: radial-gradient(
+    ellipse 55% 90% at 50% 0%,
+    rgb(15 118 110 / 0.12),
+    rgb(15 118 110 / 0.04) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark[data-design='v2'] .hero-glow {
+  background: radial-gradient(
+    ellipse 55% 90% at 50% 0%,
+    rgb(45 212 191 / 0.14),
+    rgb(45 212 191 / 0.05) 45%,
+    transparent 72%
+  );
 }

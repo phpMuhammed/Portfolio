@@ -1,0 +1,107 @@
+---
+import { DESIGN_V2 } from '../config/design';
+---
+
+{DESIGN_V2 && <div id="network-bg" class="network-bg" aria-hidden="true" />}
+
+<script>
+  // The container only exists when DESIGN_V2 is on, so v1 pays nothing:
+  // we bail before the dynamic import is ever requested.
+  const host = document.getElementById('network-bg');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (host && !reduceMotion.matches) {
+    const root = document.documentElement;
+
+    // Single source of truth for the colour lives in CSS (`.network-bg { color }`),
+    // so the graph tracks the accent token in both themes.
+    const accent = () => getComputedStyle(host).color;
+
+    const options = () => {
+      const narrow = window.innerWidth < 768;
+      const color = accent();
+
+      return {
+        fullScreen: { enable: false },
+        detectRetina: true,
+        fpsLimit: 60,
+        pauseOnBlur: true,
+        pauseOnOutsideViewport: true,
+        particles: {
+          number: { value: narrow ? 26 : 52 },
+          color: { value: color },
+          links: {
+            enable: true,
+            color,
+            distance: narrow ? 110 : 145,
+            opacity: 0.22,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 0.35,
+            direction: 'none' as const,
+            outModes: { default: 'out' as const },
+          },
+          opacity: { value: { min: 0.15, max: 0.4 } },
+          size: { value: { min: 1, max: 2.2 } },
+        },
+        interactivity: {
+          // Pointer is tracked on the window so the canvas can stay
+          // `pointer-events: none` and never swallow a click.
+          detectsOn: 'window' as const,
+          events: {
+            onHover: { enable: !narrow, mode: 'grab' },
+            resize: { enable: true },
+          },
+          modes: { grab: { distance: 170, links: { opacity: 0.4 } } },
+        },
+      };
+    };
+
+    let container: { destroy: () => void } | undefined;
+    let engine: typeof import('@tsparticles/engine').tsParticles | undefined;
+
+    const mount = async () => {
+      if (!engine) {
+        const [{ tsParticles }, { loadSlim }] = await Promise.all([
+          import('@tsparticles/engine'),
+          import('@tsparticles/slim'),
+        ]);
+        await loadSlim(tsParticles);
+        engine = tsParticles;
+      }
+      container = await engine.load({ id: 'network-bg', options: options() });
+    };
+
+    const remount = () => {
+      container?.destroy();
+      container = undefined;
+      void mount();
+    };
+
+    // Defer past first paint so the canvas never competes with content.
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => void mount(), { timeout: 1500 });
+    } else {
+      setTimeout(() => void mount(), 300);
+    }
+
+    // Theme toggle rewrites `.dark` on <html>; particle colours are baked in
+    // at load time, so rebuild the graph when it flips.
+    let themeTimer: number;
+    new MutationObserver(() => {
+      window.clearTimeout(themeTimer);
+      themeTimer = window.setTimeout(remount, 120);
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+    reduceMotion.addEventListener('change', (event) => {
+      if (event.matches) {
+        container?.destroy();
+        container = undefined;
+      } else if (!container) {
+        void mount();
+      }
+    });
+  }
+</script>

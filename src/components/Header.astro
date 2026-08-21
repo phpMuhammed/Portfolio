@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { DESIGN_V2 } from '../config/design';
 import type { SiteContent } from '../content/types';
 
 interface Props {
@@ -25,7 +26,7 @@ const navItems = [
 </a>
 
 <header
-  class="border-line dark:border-line-dark bg-paper/90 dark:bg-paper-dark/90 sticky top-0 z-40 border-b backdrop-blur"
+  class="site-header border-line dark:border-line-dark bg-paper/90 dark:bg-paper-dark/90 sticky top-0 z-40 border-b backdrop-blur"
 >
   <div class="mx-auto flex max-w-[960px] items-center justify-between gap-4 px-5 py-4">
     <a href={content.path} class="font-semibold tracking-tight">
@@ -51,7 +52,7 @@ const navItems = [
         id="lang-toggle"
         href={content.altPath}
         hreflang={content.htmlLangAlt}
-        class="border-line dark:border-line-dark hover:border-accent dark:hover:border-accent-dark inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors"
+        class="border-line dark:border-line-dark hover:border-accent dark:hover:border-accent-dark inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors active:scale-95"
       >
         <Icon name="globe" class="h-4 w-4" />
         {nav.languageToggleLabel}
@@ -60,7 +61,7 @@ const navItems = [
       <button
         id="theme-toggle"
         type="button"
-        class="border-line dark:border-line-dark hover:border-accent dark:hover:border-accent-dark inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+        class="border-line dark:border-line-dark hover:border-accent dark:hover:border-accent-dark inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors active:scale-90"
         aria-label={nav.themeToggleDarkLabel}
         data-light-label={nav.themeToggleLightLabel}
         data-dark-label={nav.themeToggleDarkLabel}
@@ -95,6 +96,8 @@ const navItems = [
       ))
     }
   </nav>
+
+  {DESIGN_V2 && <div class="scroll-progress" aria-hidden="true" />}
 </header>
 
 <script>
@@ -176,5 +179,33 @@ const navItems = [
     );
 
     sections.forEach((section) => observer.observe(section));
+  }
+
+  // v2 only — the progress hairline is not rendered when DESIGN_V2 is off.
+  const progress = document.querySelector<HTMLElement>('.scroll-progress');
+  const header = document.querySelector<HTMLElement>('.site-header');
+
+  if (progress && header) {
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+      progress.style.setProperty('--progress', String(Math.min(1, Math.max(0, ratio))));
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
+
+    update();
   }
 </script>

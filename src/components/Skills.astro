@@ -1,6 +1,7 @@
 ---
 import Icon, { type IconName } from './Icon.astro';
 import TechIcon, { type TechIconName } from './TechIcon.astro';
+import { SHOW_SKILL_ICONS } from '../config/design';
 import type { SiteContent } from '../content/types';
 
 interface Props {
@@ -46,7 +47,7 @@ const TECH_ICONS: Partial<Record<string, TechIconName>> = {
 };
 ---
 
-<section id="skills" class="mx-auto max-w-[960px] px-5 py-16 md:py-20">
+<section id="skills" class="reveal mx-auto max-w-[960px] px-5 py-16 md:py-20">
   <h2 class="text-2xl font-bold tracking-tight md:text-3xl">{skills.heading}</h2>
 
   <div class="mt-8 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
@@ -59,7 +60,7 @@ const TECH_ICONS: Partial<Record<string, TechIconName>> = {
           </h3>
           <div class="mt-3 flex flex-wrap gap-2">
             {group.items.map((item) => {
-              const techIcon = TECH_ICONS[item];
+              const techIcon = SHOW_SKILL_ICONS ? TECH_ICONS[item] : undefined;
               return (
                 <span class="border-line dark:border-line-dark inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs">
                   {techIcon && <TechIcon name={techIcon} class="h-3.5 w-3.5 shrink-0" />}
